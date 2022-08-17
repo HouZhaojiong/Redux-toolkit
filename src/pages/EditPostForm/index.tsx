@@ -1,16 +1,20 @@
 import { useState, ChangeEvent } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useAppSelector, useAppDispatch } from '@/hooks';
-import { postUpdated, selectPostById } from '@/store/slice/postsSlice';
+import { useAppSelector } from '@/hooks';
+// import { useAppSelector, useAppDispatch } from '@/hooks';
+// import { postUpdated, selectPostById } from '@/store/slice/postsSlice';
 import { selectAllUsers } from '@/store/slice/usersSlice';
+import { useGetPostQuery, useEditPostMutation } from '@/store/api/apiSlice';
 import './style.less';
 
 const EditPostForm = () => {
   const { postId } = useParams();
   const navigate = useNavigate();
-  const post = useAppSelector((state) => selectPostById(state, postId!));
+  // const post = useAppSelector((state) => selectPostById(state, postId!));
   const users = useAppSelector(selectAllUsers);
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
+  const { data: post } = useGetPostQuery(postId!);
+  const [updatePost] = useEditPostMutation();
 
   const [title, setTitle] = useState(post?.title || '');
   const [content, setContent] = useState(post?.content || '');
@@ -25,15 +29,16 @@ const EditPostForm = () => {
   const handleContentChange = (event: ChangeEvent<HTMLTextAreaElement>) =>
     setContent(event.target.value);
 
-  const handleSavePostClicked = () => {
+  const handleSavePostClicked = async () => {
     if (title && content) {
-      dispatch(
-        postUpdated({
-          id: postId!,
-          title,
-          content,
-        })
-      );
+      // dispatch(
+      //   postUpdated({
+      //     id: postId!,
+      //     title,
+      //     content,
+      //   })
+      // );
+      await updatePost({ id: postId!, title, content });
       setTitle('');
       setContent('');
       navigate(`/SinglePostPage/${postId}`);
@@ -59,7 +64,12 @@ const EditPostForm = () => {
         />
 
         <label htmlFor='postAuthor'>Author:</label>
-        <select id='postAuthor' value={userId} onChange={handleUserChange}>
+        <select
+          id='postAuthor'
+          value={userId}
+          onChange={handleUserChange}
+          disabled
+        >
           <option value=''></option>
           {usersOptions}
         </select>

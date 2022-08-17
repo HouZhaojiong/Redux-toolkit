@@ -32,7 +32,7 @@ export const fetchNotifications = createAsyncThunk(
     const response = await axios({
       method: 'get',
       url: '/api/notifications',
-      data: {
+      params: {
         since: latestTimestamp,
       },
     });

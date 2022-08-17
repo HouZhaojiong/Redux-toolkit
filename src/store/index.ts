@@ -1,13 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import postsReducer from './slice/postsSlice';
-import usersReducer from './slice/usersSlice';
+// import usersReducer from './slice/usersSlice';
 import notificationsReducer from './slice/notificationsSlice';
 import { apiSlice } from './api/apiSlice';
 
 const store = configureStore({
   reducer: {
     posts: postsReducer,
-    users: usersReducer,
+    // users: usersReducer,
     notifications: notificationsReducer,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },

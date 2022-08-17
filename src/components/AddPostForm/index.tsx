@@ -1,17 +1,21 @@
 import { useState, ChangeEvent } from 'react';
-import { useAppSelector, useAppDispatch } from '@/hooks';
-import { addNewPost } from '@/store/slice/postsSlice';
+// import { useAppSelector, useAppDispatch } from '@/hooks';
+import { useAppSelector } from '@/hooks';
+// import { addNewPost } from '@/store/slice/postsSlice';
 import { selectAllUsers } from '@/store/slice/usersSlice';
+import { useAddNewPostMutation } from '@/store/api/apiSlice';
 import './style.less';
 
 const AddPostForm = () => {
   const users = useAppSelector(selectAllUsers);
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [userId, setUserId] = useState('');
-  const [addRequestStatus, setAddRequestStatus] = useState('idle');
+  // const [addRequestStatus, setAddRequestStatus] = useState('idle');
+
+  const [addNewPost, { isLoading }] = useAddNewPostMutation();
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) =>
     setTitle(event.target.value);
@@ -23,19 +27,21 @@ const AddPostForm = () => {
     setContent(event.target.value);
 
   const handleSavePostClicked = async () => {
-    const canSave =
-      [title, content, userId].every(Boolean) && addRequestStatus === 'idle';
+    // const canSave =
+    //   [title, content, userId].every(Boolean) && addRequestStatus === 'idle';
+    const canSave = [title, content, userId].every(Boolean) && !isLoading;
     if (canSave) {
       try {
-        setAddRequestStatus('pending');
-        await dispatch(addNewPost({ title, content, user: userId })).unwrap();
+        // setAddRequestStatus('pending');
+        // await dispatch(addNewPost({ title, content, user: userId })).unwrap();
+        await addNewPost({ title, content, user: userId }).unwrap();
         setTitle('');
         setContent('');
         setUserId('');
       } catch (error) {
         console.log(error);
       } finally {
-        setAddRequestStatus('idle');
+        // setAddRequestStatus('idle');
       }
     }
   };
