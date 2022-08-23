@@ -3,7 +3,7 @@ import type { IPost, IReactions } from '../slice/postsSlice';
 
 export const apiSlice = createApi({
   reducerPath: 'api',
-  baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
+  baseQuery: fetchBaseQuery({ baseUrl: '/redux_toolkit' }),
   tagTypes: ['Post'],
   endpoints: (builder) => ({
     getPosts: builder.query<IPost[], void>({
