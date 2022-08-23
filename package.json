@@ -82,7 +82,8 @@
     "test": "node scripts/test.js",
     "lint": "lint-staged",
     "prettier": "prettier --write src/",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "commitlint": "commitlint --config commitlint.config.js -e -V"
   },
   "browserslist": {
     "production": [
@@ -153,6 +154,8 @@
     ]
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.0.3",
+    "@commitlint/config-conventional": "^17.0.3",
     "@typescript-eslint/eslint-plugin": "^5.21.0",
     "@typescript-eslint/parser": "^5.21.0",
     "eslint": "^8.14.0",
